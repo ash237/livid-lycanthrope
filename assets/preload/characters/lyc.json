@@ -1,0 +1,78 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [
+				0,
+				0
+			],
+			"anim": "idle",
+			"fps": 24,
+			"name": "REAL FUCK instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-52,
+				18
+			],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "Lyc Right instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-3,
+				112
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "Lyc Up instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				6,
+				-45
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "Lyc Down instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-2,
+				46
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "Lyc Left instance 1",
+			"indices": []
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/Lyc_Assets",
+	"position": [
+		-290,
+		-220
+	],
+	"healthicon": "lyc",
+	"flip_x": false,
+	"healthbar_colors": [
+		42,
+		40,
+		38
+	],
+	"camera_position": [
+		170,
+		0
+	],
+	"sing_duration": 6.1,
+	"scale": 1
+}

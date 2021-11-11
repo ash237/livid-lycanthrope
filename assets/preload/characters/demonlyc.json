@@ -1,0 +1,78 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [
+				-2,
+				0
+			],
+			"anim": "idle",
+			"fps": 24,
+			"name": "FireDoggy Idle instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-83,
+				-194
+			],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "FireDoggy Right instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				137,
+				68
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "FireDoggy Up instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				-94,
+				-276
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "FireDoggy Down instance 1",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				178,
+				-64
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "FireDoggy Left instance 1",
+			"indices": []
+		}
+	],
+	"no_antialiasing": false,
+	"image": "characters/FireDoggy_Assets",
+	"position": [
+		-290,
+		-360
+	],
+	"healthicon": "demonlyc",
+	"flip_x": false,
+	"healthbar_colors": [
+		34,
+		11,
+		23
+	],
+	"camera_position": [
+		170,
+		0
+	],
+	"sing_duration": 6.1,
+	"scale": 1.1
+}

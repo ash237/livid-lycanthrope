@@ -247,6 +247,10 @@ class PlayState extends MusicBeatState
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
 	public var introSoundsSuffix:String = '';
 
+	var grpAttackBar:FlxTypedGroup<FlxSprite>;
+	var usingAttackBar:Bool = false;
+	var attackLevel:Float = 0;
+	var attackTxt:FlxText;
 	override public function create()
 	{
 		#if MODS_ALLOWED
@@ -625,6 +629,57 @@ class PlayState extends MusicBeatState
 					bg.antialiasing = false;
 					add(bg);
 				}
+			case 'lyc1':
+				var adjustment:Array<Int> = [341, -117];
+				var adjusting:Array<FlxSprite> = [];
+				defaultCamZoom = 0.5;
+				var sky:BGSprite = new BGSprite('phase1/Sky', -1674, -612, 0.2, 0.2, 'lyc');
+				add(sky);
+
+				var back:BGSprite = new BGSprite('phase1/GroundBack', -1558, -424, 0.4, 0.4, 'lyc');
+				add(back);
+
+				var mid:BGSprite = new BGSprite('phase1/GroundMid', -1558, -483, 0.7, 0.7, 'lyc');
+				add(mid);
+
+				var front:BGSprite = new BGSprite('phase1/GroundFront', -1558, -483, 1, 1, 'lyc');
+				add(front);
+
+				adjusting.push(sky);
+				adjusting.push(back);
+				adjusting.push(mid);
+				adjusting.push(front);
+				
+				for (i in adjusting) {
+					i.x += adjustment[0];
+					i.y += adjustment[1];
+				}
+			case 'lyc2':
+				var adjustment:Array<Int> = [341, -117];
+				var adjusting:Array<FlxSprite> = [];
+				defaultCamZoom = 0.5;
+				var sky:BGSprite = new BGSprite('phase2/RedSky', -1674, -612, 0.2, 0.2, 'lyc');
+				add(sky);
+
+				var back:BGSprite = new BGSprite('phase2/RedGroundBack', -1558, -424, 0.4, 0.4, 'lyc');
+				add(back);
+
+				var mid:BGSprite = new BGSprite('phase2/RedGroundMid', -1558, -483, 0.7, 0.7, 'lyc');
+				add(mid);
+
+				var front:BGSprite = new BGSprite('phase2/RedGroundFront', -1558, -483, 1, 1, 'lyc');
+				add(front);
+
+				adjusting.push(sky);
+				adjusting.push(back);
+				adjusting.push(mid);
+				adjusting.push(front);
+				
+				for (i in adjusting) {
+					i.x += adjustment[0];
+					i.y += adjustment[1];
+				}
+
 		}
 
 		if(isPixelStage) {
@@ -707,6 +762,8 @@ class PlayState extends MusicBeatState
 					gfVersion = 'gf-christmas';
 				case 'school' | 'schoolEvil':
 					gfVersion = 'gf-pixel';
+				case 'lyc1':
+					gfVersion = 'none';
 				default:
 					gfVersion = 'gf';
 			}
@@ -716,8 +773,9 @@ class PlayState extends MusicBeatState
 		gf = new Character(0, 0, gfVersion);
 		startCharacterPos(gf);
 		gf.scrollFactor.set(0.95, 0.95);
-		gfGroup.add(gf);
-
+		if (gfVersion != 'none')
+			gfGroup.add(gf);
+		
 		dad = new Character(0, 0, SONG.player2);
 		startCharacterPos(dad, true);
 		dadGroup.add(dad);
@@ -734,6 +792,7 @@ class PlayState extends MusicBeatState
 			dad.setPosition(GF_X, GF_Y);
 			gf.visible = false;
 		}
+	
 
 		switch(curStage)
 		{
@@ -744,6 +803,9 @@ class PlayState extends MusicBeatState
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
+			case 'lyc1' | 'lyc2':
+				dad.x -= 570;
+				//dad.y -= 50;
 		}
 
 		var file:String = Paths.json(songName + '/dialogue'); //Checks for json/Psych Engine dialogue
@@ -1032,6 +1094,9 @@ class PlayState extends MusicBeatState
 		
 		
 		super.create();
+		
+
+		
 	}
 
 	public function addTextToDebug(text:String) {
@@ -1472,6 +1537,9 @@ class PlayState extends MusicBeatState
 
 	private function generateSong(dataPath:String):Void
 	{
+		if (dad.curCharacter == 'demonlyc')
+			usingAttackBar = true;
+
 		// FlxG.log.add(ChartParser.parse());
 
 		var songData = SONG;
@@ -1487,7 +1555,34 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
 
+		if (usingAttackBar) {
+			grpAttackBar = new FlxTypedGroup<FlxSprite>();
+			add(grpAttackBar);
+			
+
+			for (i in 0...7) {
+				var bar:FlxSprite = new FlxSprite(1006, 176).loadGraphic(Paths.image('bar/bar' + i, 'lyc'));
+				grpAttackBar.add(bar);
+				if (i != 0)
+					bar.alpha = 0;
+			}
+			grpAttackBar.cameras = [camHUD];
+
+			#if debug
+				attackTxt = new FlxText(1150, 500, 400, "", 32);
+				attackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				attackTxt.scrollFactor.set();
+				//attackTxt.alpha = 0;
+				attackTxt.borderSize = 2;
+				attackTxt.cameras = [camHUD];
+				add(attackTxt);
+			#end
+
+			addAttack(0);
+		}
+
 		notes = new FlxTypedGroup<Note>();
+		
 		add(notes);
 
 		var noteData:Array<SwagSection>;
@@ -1599,6 +1694,49 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 
+	function addAttack(attack:Float) {
+		attackLevel += attack;
+
+		if (attackLevel > 60) {
+			//camHUD.flash(FlxColor.RED, 1);
+			var attackFlash:FlxSprite = new FlxSprite().loadGraphic(Paths.image('attackpulse', 'lyc'));
+			attackFlash.cameras = [camHUD];
+			add(attackFlash);
+			FlxTween.tween(attackFlash, {alpha: 0}, 1, {ease:FlxEase.quadOut});
+			FlxTween.num(health, health - 0.66, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
+				health = v;
+			});
+			attackLevel = 0;
+		} else if (attackLevel >= 50) {
+			updateBar(6);
+		} else if (attackLevel >= 40) {
+			updateBar(5);
+		} else if (attackLevel >= 30) {
+			updateBar(4);
+		} else if (attackLevel >= 20) {
+			updateBar(3);
+		} else if (attackLevel >= 10) {
+			updateBar(2);
+		} else if (attackLevel >= 1) {
+			updateBar(1);
+		} else if (attackLevel <= 0) {
+			updateBar(0);
+		}
+
+		#if debug
+			attackTxt.text = Std.string(attackLevel);
+		#end
+	}
+	function updateBar(bar:Int) {
+		if (grpAttackBar.members[bar].alpha == 0) {
+			for (i in 0...grpAttackBar.length) {
+				if (i != bar)
+					grpAttackBar.members[i].alpha = 0;
+				else
+					grpAttackBar.members[i].alpha = 1;
+			}
+		}
+	}
 	function eventPushed(event:Array<Dynamic>) {
 		switch(event[2]) {
 			case 'Change Character':
@@ -2118,6 +2256,9 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
+			if (usingAttackBar) {
+				
+			}
 			var fakeCrochet:Float = (60 / SONG.bpm) * 1000;
 			notes.forEachAlive(function(daNote:Note)
 			{
@@ -3046,16 +3187,22 @@ class PlayState extends MusicBeatState
 		{
 			daRating = 'shit';
 			score = 50;
+			if (usingAttackBar)
+				addAttack(5);
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.5)
 		{
 			daRating = 'bad';
 			score = 100;
+			if (usingAttackBar)
+				addAttack(5);
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.25)
 		{
 			daRating = 'good';
 			score = 200;
+			if (usingAttackBar)
+				addAttack(2);
 		}
 
 		if(daRating == 'sick' && !note.noteSplashDisabled)
@@ -3323,6 +3470,9 @@ class PlayState extends MusicBeatState
 
 	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
 		//Dupe note remove
+		if (usingAttackBar)
+			addAttack(10);
+
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 10) {
 				note.kill();

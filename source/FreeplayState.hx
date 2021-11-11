@@ -96,11 +96,14 @@ class FreeplayState extends MusicBeatState
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
 
-		for (i in 0...songs.length)
+		for (i in 0...songs.length)	
 		{
-			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false);
+			var songText:Alphabet = new Alphabet(-5, (70 * i) + 30, songs[i].songName, true, false);
 			songText.isMenuItem = true;
 			songText.targetY = i;
+			songText.isFreeplay = true;
+			songText.x += 500;
+			songText.scale.set(0.75, 0.75);
 			grpSongs.add(songText);
 
 			Paths.currentModDirectory = songs[i].folder;

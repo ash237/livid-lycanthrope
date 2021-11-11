@@ -32,6 +32,7 @@ class Alphabet extends FlxSpriteGroup
 	var _finalText:String = "";
 	var yMulti:Float = 1;
 
+	public var isFreeplay:Bool = false;
 	// custom shit
 	// amp, backslash, question mark, apostrophy, comma, angry faic, period
 	var lastSprite:AlphaCharacter;
@@ -337,10 +338,13 @@ class Alphabet extends FlxSpriteGroup
 
 			var lerpVal:Float = CoolUtil.boundTo(elapsed * 9.6, 0, 1);
 			y = FlxMath.lerp(y, (scaledY * yMult) + (FlxG.height * 0.48) + yAdd, lerpVal);
-			if(forceX != Math.NEGATIVE_INFINITY) {
-				x = forceX;
-			} else {
-				x = FlxMath.lerp(x, (targetY * 20) + 90 + xAdd, lerpVal);
+
+			if (!isFreeplay) {
+				if(forceX != Math.NEGATIVE_INFINITY) {
+					x = forceX;
+				} else {
+					x = FlxMath.lerp(x, (targetY * 20) + 90 + xAdd, lerpVal);
+				}
 			}
 		}
 

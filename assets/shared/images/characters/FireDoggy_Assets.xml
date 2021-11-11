@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="FireDoggy_Assets.png">
+	<!-- Created with Adobe Animate version 21.0.4.39603 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="FireDoggy Down instance 10000" x="15" y="15" width="995" height="827" frameX="0" frameY="-21" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10001" x="15" y="15" width="995" height="827" frameX="0" frameY="-21" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10002" x="1025" y="15" width="985" height="830" frameX="-8" frameY="-15" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10003" x="1025" y="15" width="985" height="830" frameX="-8" frameY="-15" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10004" x="2025" y="15" width="941" height="826" frameX="-31" frameY="-2" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10005" x="2025" y="15" width="941" height="826" frameX="-31" frameY="-2" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10006" x="2981" y="15" width="944" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10007" x="2981" y="15" width="944" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10008" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10009" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10010" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10011" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10012" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Down instance 10013" x="3940" y="15" width="945" height="828" frameX="-31" frameY="0" frameWidth="995" frameHeight="848"/>
+	<SubTexture name="FireDoggy Idle instance 10000" x="4900" y="15" width="914" height="1045" frameX="0" frameY="-8" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10001" x="4900" y="15" width="914" height="1045" frameX="0" frameY="-8" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10002" x="5829" y="15" width="911" height="1053" frameX="0" frameY="0" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10003" x="5829" y="15" width="911" height="1053" frameX="0" frameY="0" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10004" x="6755" y="15" width="892" height="1045" frameX="-5" frameY="-8" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10005" x="6755" y="15" width="892" height="1045" frameX="-5" frameY="-8" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10006" x="15" y="1083" width="890" height="1040" frameX="-3" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10007" x="15" y="1083" width="890" height="1040" frameX="-3" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10008" x="920" y="1083" width="890" height="1040" frameX="-2" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10009" x="920" y="1083" width="890" height="1040" frameX="-2" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10010" x="920" y="1083" width="890" height="1040" frameX="-2" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10011" x="920" y="1083" width="890" height="1040" frameX="-2" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10012" x="920" y="1083" width="890" height="1040" frameX="-2" frameY="-13" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Idle instance 10013" x="1825" y="1083" width="889" height="1042" frameX="-5" frameY="-11" frameWidth="914" frameHeight="1053"/>
+	<SubTexture name="FireDoggy Left instance 10000" x="2729" y="1083" width="1125" height="1020" frameX="0" frameY="0" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10001" x="2729" y="1083" width="1125" height="1020" frameX="0" frameY="0" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10002" x="3869" y="1083" width="1126" height="1015" frameX="-6" frameY="-1" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10003" x="3869" y="1083" width="1126" height="1015" frameX="-6" frameY="-1" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10004" x="5010" y="1083" width="1118" height="992" frameX="-30" frameY="-14" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10005" x="5010" y="1083" width="1118" height="992" frameX="-30" frameY="-14" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10006" x="6143" y="1083" width="1113" height="987" frameX="-38" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10007" x="6143" y="1083" width="1113" height="987" frameX="-38" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10008" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10009" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10010" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10011" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10012" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Left instance 10013" x="15" y="2140" width="1112" height="987" frameX="-39" frameY="-19" frameWidth="1151" frameHeight="1020"/>
+	<SubTexture name="FireDoggy Right instance 10000" x="1142" y="2140" width="987" height="909"/>
+	<SubTexture name="FireDoggy Right instance 10001" x="1142" y="2140" width="987" height="909"/>
+	<SubTexture name="FireDoggy Right instance 10002" x="2144" y="2140" width="982" height="907" frameX="-3" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10003" x="2144" y="2140" width="982" height="907" frameX="-3" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10004" x="3141" y="2140" width="960" height="907" frameX="-16" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10005" x="3141" y="2140" width="960" height="907" frameX="-16" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10006" x="4116" y="2140" width="955" height="907" frameX="-23" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10007" x="4116" y="2140" width="955" height="907" frameX="-23" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10008" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10009" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10010" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10011" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10012" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Right instance 10013" x="5086" y="2140" width="955" height="907" frameX="-24" frameY="-2" frameWidth="987" frameHeight="909"/>
+	<SubTexture name="FireDoggy Up instance 10000" x="6056" y="2140" width="1155" height="1125" frameX="0" frameY="-11" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10001" x="6056" y="2140" width="1155" height="1125" frameX="0" frameY="-11" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10002" x="15" y="3280" width="1157" height="1136" frameX="-3" frameY="0" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10003" x="15" y="3280" width="1157" height="1136" frameX="-3" frameY="0" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10004" x="1187" y="3280" width="1137" height="1119" frameX="-42" frameY="-16" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10005" x="1187" y="3280" width="1137" height="1119" frameX="-42" frameY="-16" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10006" x="2339" y="3280" width="1129" height="1102" frameX="-53" frameY="-33" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10007" x="2339" y="3280" width="1129" height="1102" frameX="-53" frameY="-33" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10008" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10009" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10010" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10011" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10012" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+	<SubTexture name="FireDoggy Up instance 10013" x="3483" y="3280" width="1127" height="1099" frameX="-54" frameY="-36" frameWidth="1182" frameHeight="1136"/>
+</TextureAtlas>
