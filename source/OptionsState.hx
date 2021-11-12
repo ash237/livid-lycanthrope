@@ -40,9 +40,8 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
-		menuBG = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		menuBG.color = 0xFFea71fd;
-		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
+		menuBG = new FlxSprite().loadGraphic(Paths.image('menus/creditbg'));
+		menuBG.setGraphicSize(Std.int(menuBG.width * 2/3));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
 		menuBG.antialiasing = ClientPrefs.globalAntialiasing;

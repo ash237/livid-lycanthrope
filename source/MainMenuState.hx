@@ -1,5 +1,6 @@
 package;
 
+import dependency.FNFSprite;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -27,7 +28,7 @@ class MainMenuState extends MusicBeatState
 	public static var psychEngineVersion:String = '0.4.2'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
-	var menuItems:FlxTypedGroup<FlxSprite>;
+	var menuItems:FlxTypedGroup<FNFSprite>;
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
@@ -46,6 +47,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		FlxG.mouse.visible = true;
 		camGame = new FlxCamera();
 		camAchievement = new FlxCamera();
 		camAchievement.bgColor.alpha = 0;
@@ -61,26 +63,24 @@ class MainMenuState extends MusicBeatState
 
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 
-		var bg:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('mainmenu/bg'));
+		var bg:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/bg'));
 		bg.scrollFactor.set(0, 0);
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 
-		
-
-		var upperbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('mainmenu/upperbarrier'));
+		var upperbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/upperbarrier'));
 		upperbarrier.scrollFactor.set(0, 0);
 		upperbarrier.antialiasing = ClientPrefs.globalAntialiasing;
 		add(upperbarrier);
 
 		menuDog = new FlxSprite(659, 90);
-		menuDog.frames = Paths.getSparrowAtlas('mainmenu/menudoggy');
+		menuDog.frames = Paths.getSparrowAtlas('menus/main/menudoggy');
 		menuDog.animation.addByPrefix('bop', 'DoggyMenuBop', 24, false);
 		menuDog.scrollFactor.set(0, 0);
 		menuDog.antialiasing = ClientPrefs.globalAntialiasing;
 		add(menuDog);
 
-		var lowerbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('mainmenu/lowerbarrier'));
+		var lowerbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/lowerbarrier'));
 		lowerbarrier.scrollFactor.set(0, 0);
 		lowerbarrier.antialiasing = ClientPrefs.globalAntialiasing;
 		add(lowerbarrier);
@@ -88,7 +88,7 @@ class MainMenuState extends MusicBeatState
 		logo = new FlxSprite(11, 110);
 		logo.scrollFactor.set(0, 0);
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		logo.frames = Paths.getSparrowAtlas('mainmenu/logo');
+		logo.frames = Paths.getSparrowAtlas('menus/main/logo');
 		logo.animation.addByPrefix('bop', 'logo bumpin', 24, false);
 		add(logo);
 		Conductor.changeBPM(80);
@@ -111,17 +111,18 @@ class MainMenuState extends MusicBeatState
 		//add(magenta);
 		// magenta.scrollFactor.set();
 
-		menuItems = new FlxTypedGroup<FlxSprite>();
+		menuItems = new FlxTypedGroup<FNFSprite>();
 		add(menuItems);
 
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 108 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite((i * 310) + 70, 600);
-			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
+			var menuItem:FNFSprite = new FNFSprite((i * 310) + 70, 600);
+			menuItem.frames = Paths.getSparrowAtlas('menus/main/menu_' + optionShit[i]);
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
-			menuItem.animation.play('idle');
+			menuItem.addOffset('selected', (i == 0) ? 600 : 400, 100);
+			menuItem.playAnim('idle');
 			menuItem.ID = i;
 			//menuItem.screenCenter(X);
 			menuItems.add(menuItem);
@@ -187,13 +188,13 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_UP_P)
+			if (controls.UI_LEFT_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_DOWN_P)
+			if (controls.UI_RIGHT_P)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
@@ -281,20 +282,15 @@ class MainMenuState extends MusicBeatState
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
 
-		menuItems.forEach(function(spr:FlxSprite)
+		menuItems.forEach(function(spr:FNFSprite)
 		{
-			spr.animation.play('idle');
-			spr.offset.y = 0;
-			spr.offset.x = 0;
+			spr.playAnim('idle');
 			spr.updateHitbox();
 
 			if (spr.ID == curSelected)
 			{
-				spr.animation.play('selected');
+				spr.playAnim('selected');
 				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
-				spr.offset.y = -500;
-				spr.offset.x = -30;
-				spr.updateHitbox();
 				FlxG.log.add(spr.frameWidth);
 			}
 		});

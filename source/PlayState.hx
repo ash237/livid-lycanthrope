@@ -269,6 +269,8 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
+		FlxG.mouse.visible = false;
+
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
 		FlxG.cameras.add(camOther);
@@ -3182,28 +3184,35 @@ class PlayState extends MusicBeatState
 		var score:Int = 350;
 
 		var daRating:String = "sick";
-
-		if (noteDiff > Conductor.safeZoneOffset * 0.75)
+		var healthMultiplier:Float = 1;
+		if (noteDiff > 120)
 		{
 			daRating = 'shit';
 			score = 50;
+			healthMultiplier = -1;
+			songMisses++;
+			combo = 0;
 			if (usingAttackBar)
 				addAttack(5);
 		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.5)
+		else if (noteDiff > 100)
 		{
 			daRating = 'bad';
 			score = 100;
+			healthMultiplier = 0.1;
 			if (usingAttackBar)
 				addAttack(5);
 		}
-		else if (noteDiff > Conductor.safeZoneOffset * 0.25)
+		else if (noteDiff > 50)
 		{
 			daRating = 'good';
 			score = 200;
+			healthMultiplier = 0.5;
 			if (usingAttackBar)
 				addAttack(2);
 		}
+
+		health += note.hitHealth * healthMultiplier;
 
 		if(daRating == 'sick' && !note.noteSplashDisabled)
 		{
@@ -3399,7 +3408,7 @@ class PlayState extends MusicBeatState
 							&& !daNote.wasGoodHit && daNote.noteData == i) {
 								sortedNotesList.push(daNote);
 								notesDatas.push(daNote.noteData);
-								canMiss = true;
+								// canMiss = true;
 							}
 						});
 						sortedNotesList.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
@@ -3592,7 +3601,6 @@ class PlayState extends MusicBeatState
 				combo += 1;
 				if(combo > 9999) combo = 9999;
 			}
-			health += note.hitHealth;
 
 			if(!note.noAnimation) {
 				var daAlt = '';
