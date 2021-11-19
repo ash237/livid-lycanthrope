@@ -52,6 +52,21 @@ class ClientPrefs {
 	}
 
 	public static function saveSettings() {
+		if (FlxG.save.data.beatweek == null)
+			FlxG.save.data.beatweek = false;
+
+		if (FlxG.save.data.songone80 == null)
+			FlxG.save.data.songone80 = true;
+
+		if (FlxG.save.data.songtwo80 == null)
+			FlxG.save.data.songtwo80 = true;
+
+		if (FlxG.save.data.songthree80 == null)
+			FlxG.save.data.songthree80 = false;
+
+		if (FlxG.save.data.all80 == null)
+			FlxG.save.data.all80 = false;
+
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;
 		FlxG.save.data.showFPS = showFPS;

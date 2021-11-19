@@ -25,6 +25,9 @@ class Alphabet extends FlxSpriteGroup
 	public var xAdd:Float = 0;
 	public var yAdd:Float = 0;
 	public var isMenuItem:Bool = false;
+	public var diff:Bool = false;
+	public var diff2:Bool = false;
+	public var score:Bool = false;
 	public var textSize:Float = 1.0;
 
 	public var text:String = "";
@@ -347,6 +350,25 @@ class Alphabet extends FlxSpriteGroup
 				}
 			}
 		}
+		if (diff)
+			{
+				screenCenter();
+				x -= 415;
+				y += 220;
+			}
+		if (diff2)
+			{
+				screenCenter();
+				x -= 490;
+				y -= 175;
+			}
+		if (score)
+			{
+				screenCenter();
+				x += 420;
+				y += 230;
+			}
+
 
 		super.update(elapsed);
 	}

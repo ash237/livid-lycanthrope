@@ -51,6 +51,7 @@ class TitleState extends MusicBeatState
 	var easterEggEnabled:Bool = true; //Disable this to hide the easter egg
 	var easterEggKeyCombination:Array<FlxKey> = [FlxKey.B, FlxKey.B]; //bb stands for bbpanzu cuz he wanted this lmao
 	var lastKeysPressed:Array<FlxKey> = [];
+	var logo:FlxSprite;
 
 	var mustUpdate:Bool = false;
 	public static var updateVersion:String = '';
@@ -145,8 +146,6 @@ class TitleState extends MusicBeatState
 		#end
 	}
 
-	var logoBl:FlxSprite;
-	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
 	var swagShader:ColorSwap = null;
@@ -186,40 +185,42 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(80);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		// bg.antialiasing = ClientPrefs.globalAntialiasing;
-		// bg.setGraphicSize(Std.int(bg.width * 0.6));
-		// bg.updateHitbox();
+		var bg:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/bg'));
+		bg.scrollFactor.set(0, 0);
+		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 
-		logoBl = new FlxSprite(-150, -100);
-		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
-		logoBl.antialiasing = ClientPrefs.globalAntialiasing;
-		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24);
-		logoBl.animation.play('bump');
-		logoBl.updateHitbox();
-		// logoBl.screenCenter();
-		// logoBl.color = FlxColor.BLACK;
+		var leftdot:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/freeplay/leftdot'));
+		leftdot.scrollFactor.set(0, 0);
+		leftdot.antialiasing = ClientPrefs.globalAntialiasing;
+		add(leftdot);
 
-		swagShader = new ColorSwap();
-		if(!FlxG.save.data.psykaEasterEgg || !easterEggEnabled) {
-			gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-			gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-			gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-			gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		}
-		else //Psyka easter egg
-		{
-			gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.04);
-			gfDance.frames = Paths.getSparrowAtlas('psykaDanceTitle');
-			gfDance.animation.addByIndices('danceLeft', 'psykaDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-			gfDance.animation.addByIndices('danceRight', 'psykaDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		}
-		gfDance.antialiasing = ClientPrefs.globalAntialiasing;
-		add(gfDance);
-		gfDance.shader = swagShader.shader;
-		add(logoBl);
-		//logoBl.shader = swagShader.shader;
+		var rightdot:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/freeplay/rightdot'));
+		rightdot.scrollFactor.set(0, 0);
+		rightdot.antialiasing = ClientPrefs.globalAntialiasing;
+		add(rightdot);
+
+		var upperbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/upperbarrier'));
+		upperbarrier.scrollFactor.set(0, 0);
+		upperbarrier.antialiasing = ClientPrefs.globalAntialiasing;
+		add(upperbarrier);
+
+		var lowerbarrier:FlxSprite = new FlxSprite(0,-100).loadGraphic(Paths.image('menus/main/lowerbarrier'));
+		lowerbarrier.scrollFactor.set(0, 0);
+		lowerbarrier.antialiasing = ClientPrefs.globalAntialiasing;
+		add(lowerbarrier);
+
+		var bbg:FlxSprite = new FlxSprite(0,555).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		add(bbg);
+
+		logo = new FlxSprite(25, 100);
+		logo.x += 310;
+		logo.scrollFactor.set(0, 0);
+		logo.antialiasing = ClientPrefs.globalAntialiasing;
+		logo.frames = Paths.getSparrowAtlas('menus/main/logo');
+		logo.animation.addByPrefix('bop', 'logo bumpin', 24, false);
+		logo.scale.set(0.9,0.9);
+		add(logo);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
@@ -230,15 +231,6 @@ class TitleState extends MusicBeatState
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
 		add(titleText);
-
-		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
-		logo.screenCenter();
-		logo.antialiasing = ClientPrefs.globalAntialiasing;
-		// add(logo);
-
-		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
-		// FlxTween.tween(logo, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
-
 		credGroup = new FlxGroup();
 		add(credGroup);
 		textGroup = new FlxGroup();
@@ -332,19 +324,23 @@ class TitleState extends MusicBeatState
 			{
 				if(titleText != null) titleText.animation.play('press');
 
-				FlxG.camera.flash(FlxColor.WHITE, 1);
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
 				transitioning = true;
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
 				// FlxG.sound.music.stop();
+				new FlxTimer().start(0.5, function(tmr:FlxTimer)
+					{
+						FlxTween.tween(titleText, {y: titleText.y + 200}, 1.5, {
+							ease: FlxEase.expoOut,
+						});
+					});
 
-				new FlxTimer().start(1, function(tmr:FlxTimer)
+
+				new FlxTimer().start(1.2, function(tmr:FlxTimer)
 				{
-					if (mustUpdate) {
-						MusicBeatState.switchState(new OutdatedState());
-					} else {
 						MusicBeatState.switchState(new MainMenuState());
-					}
 					closedState = true;
 				});
 				// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
@@ -445,19 +441,7 @@ class TitleState extends MusicBeatState
 	override function beatHit()
 	{
 		super.beatHit();
-
-		if(logoBl != null) 
-			logoBl.animation.play('bump');
-
-		if(gfDance != null) {
-			danceLeft = !danceLeft;
-
-			if (danceLeft)
-				gfDance.animation.play('danceRight');
-			else
-				gfDance.animation.play('danceLeft');
-		}
-
+		logo.animation.play('bop', true);
 		if(!closedState) {
 			sickBeats++;
 			switch (sickBeats)
@@ -522,7 +506,7 @@ class TitleState extends MusicBeatState
 		{
 			remove(logoSpr);
 
-			FlxG.camera.flash(FlxColor.WHITE, 4);
+			FlxG.camera.flash(FlxColor.WHITE, 0.99);
 			remove(credGroup);
 			skippedIntro = true;
 		}

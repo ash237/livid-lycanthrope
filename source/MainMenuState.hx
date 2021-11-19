@@ -68,29 +68,52 @@ class MainMenuState extends MusicBeatState
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
 
+		var leftdot:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/freeplay/leftdot'));
+		leftdot.scrollFactor.set(0, 0);
+		leftdot.antialiasing = ClientPrefs.globalAntialiasing;
+		add(leftdot);
+
+		var rightdot:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/freeplay/rightdot'));
+		rightdot.scrollFactor.set(0, 0);
+		rightdot.antialiasing = ClientPrefs.globalAntialiasing;
+		add(rightdot);
+
 		var upperbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/upperbarrier'));
 		upperbarrier.scrollFactor.set(0, 0);
 		upperbarrier.antialiasing = ClientPrefs.globalAntialiasing;
 		add(upperbarrier);
 
-		menuDog = new FlxSprite(659, 90);
+		menuDog = new FlxSprite(550, 90);
 		menuDog.frames = Paths.getSparrowAtlas('menus/main/menudoggy');
 		menuDog.animation.addByPrefix('bop', 'DoggyMenuBop', 24, false);
 		menuDog.scrollFactor.set(0, 0);
 		menuDog.antialiasing = ClientPrefs.globalAntialiasing;
+		menuDog.scale.set(0.71,0.71);
+		menuDog.y += 600;
+		FlxTween.tween(menuDog, {y: menuDog.y - 670}, 1.5, {
+			ease: FlxEase.expoOut,
+		});
 		add(menuDog);
-
-		var lowerbarrier:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/lowerbarrier'));
+		FlxG.mouse.visible = true;
+		var lowerbarrier:FlxSprite = new FlxSprite(0,-100).loadGraphic(Paths.image('menus/main/lowerbarrier'));
 		lowerbarrier.scrollFactor.set(0, 0);
 		lowerbarrier.antialiasing = ClientPrefs.globalAntialiasing;
 		add(lowerbarrier);
 
-		logo = new FlxSprite(11, 110);
+		var bbg:FlxSprite = new FlxSprite(0,555).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		add(bbg);
+
+		logo = new FlxSprite(11, 100);
 		logo.scrollFactor.set(0, 0);
+		logo.x += 310;
+		FlxTween.tween(logo, {x: logo.x - 310}, 1.5, {
+			ease: FlxEase.expoOut,
+		});
 		logo.antialiasing = ClientPrefs.globalAntialiasing;
 		logo.frames = Paths.getSparrowAtlas('menus/main/logo');
 		logo.animation.addByPrefix('bop', 'logo bumpin', 24, false);
 		add(logo);
+		logo.scale.set(0.9,0.9);
 		Conductor.changeBPM(80);
 
 		menuDog.animation.play('bop', true);
@@ -133,15 +156,21 @@ class MainMenuState extends MusicBeatState
 			menuItem.setGraphicSize(Std.int(menuItem.width * 0.4));
 			menuItem.updateHitbox();
 		}
+
+		menuItems.forEach(function(spr:FlxSprite)
+			{
+				spr.y = spr.y + 300;
+				FlxTween.tween(spr, {y: spr.y - 300}, 1.5, {
+					ease: FlxEase.expoOut,
+				});
+			});
 		
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		add(versionShit);
 
 		// NG.core.calls.event.logEvent('swag').send();
 

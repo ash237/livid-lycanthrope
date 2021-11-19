@@ -2997,6 +2997,22 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
+
+		switch (Paths.formatToSongPath(SONG.song))
+		{
+			case 'lycanthrope':
+				if (ratingPercent >= 80)
+					FlxG.save.data.songthree80 = true;
+			case 'rejoice':
+				if (ratingPercent >= 80)
+					FlxG.save.data.songtwo80 = true;
+			case 'before-the-storm':
+				if (ratingPercent >= 80)
+					FlxG.save.data.songone80 = true;
+		}
+
+		if (FlxG.save.data.songone80 && FlxG.save.data.songtwo80 && FlxG.save.data.songthree80)
+			FlxG.save.data.all80 = true;
 		
 		timeBarBG.visible = false;
 		timeBar.visible = false;
@@ -3059,6 +3075,9 @@ class PlayState extends MusicBeatState
 						CustomFadeTransition.nextCamera = null;
 					}
 					MusicBeatState.switchState(new StoryMenuState());
+
+					if (Paths.formatToSongPath(SONG.song) == 'lycanthrope')
+						FlxG.save.data.beatweek = true;
 
 					// if ()
 					if(!usedPractice) {
