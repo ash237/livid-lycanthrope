@@ -29,13 +29,18 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var transCamera:FlxCamera;
 
+	public static var difficultyShit:Array<Dynamic> = [
+		['Standard', ''],
+		['Expert', '-hard']
+	];
+
 	public function new(x:Float, y:Float)
 	{
 		super();
 		menuItems = menuItemsOG;
 
-		for (i in 0...CoolUtil.difficultyStuff.length) {
-			var diff:String = '' + CoolUtil.difficultyStuff[i][0];
+		for (i in 0...difficultyShit.length) {
+			var diff:String = '' + difficultyShit[i][0];
 			difficultyChoices.push(diff);
 		}
 		difficultyChoices.push('BACK');
@@ -59,7 +64,10 @@ class PauseSubState extends MusicBeatSubstate
 		add(levelInfo);
 
 		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
-		levelDifficulty.text += CoolUtil.difficultyString();
+		if (PlayState.storyDifficulty == 1)
+			levelDifficulty.text = 'STANDARD';
+		else
+			levelDifficulty.text = 'EXPERT';
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();
@@ -143,9 +151,9 @@ class PauseSubState extends MusicBeatSubstate
 			for (i in 0...difficultyChoices.length-1) {
 				if(difficultyChoices[i] == daSelected) {
 					var name:String = PlayState.SONG.song.toLowerCase();
-					var poop = Highscore.formatSong(name, curSelected);
+					var poop = Highscore.formatSong(name, curSelected + 1);
 					PlayState.SONG = Song.loadFromJson(poop, name);
-					PlayState.storyDifficulty = curSelected;
+					PlayState.storyDifficulty = curSelected + 1;
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;

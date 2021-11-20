@@ -11,19 +11,30 @@ class StrumNote extends FlxSprite
 	private var colorSwap:ColorSwap;
 	public var resetAnim:Float = 0;
 	private var noteData:Int = 0;
-
+	public var notetype:String = 'normal';
 	private var player:Int;
 
-	public function new(x:Float, y:Float, leData:Int, player:Int) {
+	public function new(x:Float, y:Float, leData:Int, player:Int,notetype:String) {
 		colorSwap = new ColorSwap();
 		shader = colorSwap.shader;
 		noteData = leData;
 		this.player = player;
+		this.notetype = notetype;
 		this.noteData = leData;
 		super(x, y);
 
 		var skin:String = 'NOTE_assets';
 		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
+
+		switch (notetype)
+		{
+			case 'normal':
+				skin = 'NOTE_assets';
+			case 'lyc':
+				skin = 'LycNotes1';
+			case 'lyc2':
+				skin = 'LycNotes2';
+		}
 
 		if(PlayState.isPixelStage)
 		{
@@ -139,7 +150,15 @@ class StrumNote extends FlxSprite
 
 	function updateConfirmOffset() { //TO DO: Find a calc to make the offset work fine on other angles
 		centerOffsets();
-		offset.x -= 13;
-		offset.y -= 13;
+		if(PlayState.dooffset && notetype =='lyc2')
+			{
+				offset.x -= 15;
+				offset.y -= 12;
+			}
+			else
+				{
+					offset.x -= 13;
+					offset.y -= 13;
+				}
 	}
 }

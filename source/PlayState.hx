@@ -60,6 +60,7 @@ class PlayState extends MusicBeatState
 {
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
+	public static var alreadyshowed:Bool = true;
 
 	public static var ratingStuff:Array<Dynamic> = [
 		['You Suck!', 0.2], //From 0% to 19%
@@ -111,6 +112,7 @@ class PlayState extends MusicBeatState
 
 	public static var curStage:String = '';
 	public static var isPixelStage:Bool = false;
+	public static var dooffset:Bool = false;
 	public static var SONG:SwagSong = null;
 	public static var isStoryMode:Bool = false;
 	public static var storyWeek:Int = 0;
@@ -660,6 +662,7 @@ class PlayState extends MusicBeatState
 				var adjustment:Array<Int> = [341, -117];
 				var adjusting:Array<FlxSprite> = [];
 				defaultCamZoom = 0.5;
+				dooffset = true;
 				var sky:BGSprite = new BGSprite('phase2/RedSky', -1674, -612, 0.2, 0.2, 'lyc');
 				add(sky);
 
@@ -775,6 +778,7 @@ class PlayState extends MusicBeatState
 		gf = new Character(0, 0, gfVersion);
 		startCharacterPos(gf);
 		gf.scrollFactor.set(0.95, 0.95);
+		gf.alpha = 0;
 		if (gfVersion != 'none')
 			gfGroup.add(gf);
 		
@@ -1013,65 +1017,44 @@ class PlayState extends MusicBeatState
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
 		{
-			switch (daSong)
+			switch (Paths.formatToSongPath(SONG.song))
 			{
-				case "monster":
-					var whiteScreen:FlxSprite = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.WHITE);
-					add(whiteScreen);
-					whiteScreen.scrollFactor.set();
-					whiteScreen.blend = ADD;
-					camHUD.visible = false;
-					snapCamFollowToPos(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-					inCutscene = true;
-
-					FlxTween.tween(whiteScreen, {alpha: 0}, 1, {
-						startDelay: 0.1,
-						ease: FlxEase.linear,
-						onComplete: function(twn:FlxTween)
+				case 'lycanthrope':
+					if (alreadyshowed) {
+						FlxTransitionableState.skipNextTransIn = false;
+						FlxTransitionableState.skipNextTransOut = false;
+						var video:VideoHandlerMP4 = new VideoHandlerMP4();
+						video.playMP4(Paths.video('FNF-Lyc cutscene 3'));
+						video.finishCallback = function()
 						{
-							camHUD.visible = true;
-							remove(whiteScreen);
-							startCountdown();
+							LoadingState.loadAndSwitchState(new PlayState());
 						}
-					});
-					FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
-					gf.playAnim('scared', true);
-					boyfriend.playAnim('scared', true);
-
-				case "winter-horrorland":
-					var blackScreen:FlxSprite = new FlxSprite().makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
-					add(blackScreen);
-					blackScreen.scrollFactor.set();
-					camHUD.visible = false;
-					inCutscene = true;
-
-					FlxTween.tween(blackScreen, {alpha: 0}, 0.7, {
-						ease: FlxEase.linear,
-						onComplete: function(twn:FlxTween) {
-							remove(blackScreen);
+						alreadyshowed = false;
+					}
+				case 'rejoice':
+					if (alreadyshowed) {
+						FlxTransitionableState.skipNextTransIn = false;
+						FlxTransitionableState.skipNextTransOut = false;
+						var video:VideoHandlerMP4 = new VideoHandlerMP4();
+						video.playMP4(Paths.video('FNF-Lyc cutscene 2'));
+						video.finishCallback = function()
+						{
+							LoadingState.loadAndSwitchState(new PlayState());
 						}
-					});
-					FlxG.sound.play(Paths.sound('Lights_Turn_On'));
-					snapCamFollowToPos(400, -2050);
-					FlxG.camera.focusOn(camFollow);
-					FlxG.camera.zoom = 1.5;
-
-					new FlxTimer().start(0.8, function(tmr:FlxTimer)
-					{
-						camHUD.visible = true;
-						remove(blackScreen);
-						FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
-							ease: FlxEase.quadInOut,
-							onComplete: function(twn:FlxTween)
-							{
-								startCountdown();
-							}
-						});
-					});
-				case 'senpai' | 'roses' | 'thorns':
-					if(daSong == 'roses') FlxG.sound.play(Paths.sound('ANGRY'));
-					schoolIntro(doof);
-
+						alreadyshowed = false;
+					}
+				case 'before-the-storm':
+					if (alreadyshowed) {
+						FlxTransitionableState.skipNextTransIn = false;
+						FlxTransitionableState.skipNextTransOut = false;
+						var video:VideoHandlerMP4 = new VideoHandlerMP4();
+						video.playMP4(Paths.video('FNF-Lyc cutscene 1'));
+						video.finishCallback = function()
+						{
+							LoadingState.loadAndSwitchState(new PlayState());
+						}
+						alreadyshowed = false;
+					}
 				default:
 					startCountdown();
 			}
@@ -1637,7 +1620,11 @@ class PlayState extends MusicBeatState
 					else
 						oldNote = null;
 
-					var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+					var swagNote:Note;
+					if (gottaHitNote)
+						swagNote = new Note(daStrumTime, daNoteData, oldNote,false,false,boyfriend.noteSkin);
+					else
+						swagNote = new Note(daStrumTime, daNoteData, oldNote,false,false,dad.noteSkin);
 					swagNote.mustPress = gottaHitNote;
 					swagNote.sustainLength = songNotes[2];
 					swagNote.noteType = songNotes[3];
@@ -1655,7 +1642,12 @@ class PlayState extends MusicBeatState
 						{
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(SONG.speed, 2)), daNoteData, oldNote, true);
+							var sustainNote:Note;
+							if (gottaHitNote) {
+								sustainNote = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(SONG.speed, 2)), daNoteData, oldNote, true,false,boyfriend.noteSkin);
+							} else {
+								sustainNote = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(SONG.speed, 2)), daNoteData, oldNote, true,false,dad.noteSkin);
+							}
 							sustainNote.mustPress = gottaHitNote;
 							sustainNote.noteType = swagNote.noteType;
 							sustainNote.scrollFactor.set();
@@ -1792,7 +1784,19 @@ class PlayState extends MusicBeatState
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
-			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
+			var babyArrow:StrumNote;
+			if (player == 1)
+				{
+					babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player,'normal');
+				}
+				else
+				{
+					
+					if (dad.curCharacter == 'lyc')
+						babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player,'lyc');
+					else
+						babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player,'lyc2');
+				}
 			if (!isStoryMode)
 			{
 				babyArrow.y -= 10;
@@ -2961,6 +2965,61 @@ class PlayState extends MusicBeatState
 
 	function finishSong():Void
 	{
+		alreadyshowed = true;
+		trace(Paths.formatToSongPath(SONG.song));
+		trace(ratingPercent);
+		if (!cpuControlled)
+			{
+				switch (Paths.formatToSongPath(SONG.song))
+				{
+					case 'lycanthrope':
+						if (Math.floor(ratingPercent * 100) >= 80)
+							FlxG.save.data.songthree80 = true;
+						if (songMisses == 0)
+							{
+								if (storyDifficulty == 1)
+									FlxG.save.data.songthreefc = true;
+								else
+									FlxG.save.data.songthreefc2 = true;
+							}
+					case 'rejoice':
+						if (Math.floor(ratingPercent * 100) >= 80)
+							FlxG.save.data.songtwo80 = true;
+						if (songMisses == 0)
+							{
+								if (storyDifficulty == 1)
+									FlxG.save.data.songtwofc = true;
+								else
+									FlxG.save.data.songtwofc2 = true;
+							}
+					case 'before-the-storm':
+						if (Math.floor(ratingPercent * 100) >= 80)
+							FlxG.save.data.songone80 = true;
+						if (songMisses == 0)
+							{
+								if (storyDifficulty == 1)
+									FlxG.save.data.songonefc = true;
+								else
+									FlxG.save.data.songonefc2 = true;
+							}
+					case 'varcolac':
+						if (songMisses == 0)
+							{
+								if (storyDifficulty == 1)
+									FlxG.save.data.songfourfc = true;
+								else
+									FlxG.save.data.songfourfc2 = true;
+							}
+				}
+		
+				if (FlxG.save.data.songone80 && FlxG.save.data.songtwo80 && FlxG.save.data.songthree80)
+					FlxG.save.data.all80 = true;
+				if (FlxG.save.data.songonefc && FlxG.save.data.songtwofc && FlxG.save.data.songthreefc && FlxG.save.data.songfourfc)
+					FlxG.save.data.fcall = true;
+				if (FlxG.save.data.songonefc2 && FlxG.save.data.songtwofc2 && FlxG.save.data.songthreefc2 && FlxG.save.data.songfourfc2)
+					FlxG.save.data.fcall2 = true;
+			}
+		
 		var finishCallback:Void->Void = endSong; //In case you want to change it in a specific song.
 
 		updateTime = false;
@@ -2997,22 +3056,6 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
-
-		switch (Paths.formatToSongPath(SONG.song))
-		{
-			case 'lycanthrope':
-				if (ratingPercent >= 80)
-					FlxG.save.data.songthree80 = true;
-			case 'rejoice':
-				if (ratingPercent >= 80)
-					FlxG.save.data.songtwo80 = true;
-			case 'before-the-storm':
-				if (ratingPercent >= 80)
-					FlxG.save.data.songone80 = true;
-		}
-
-		if (FlxG.save.data.songone80 && FlxG.save.data.songtwo80 && FlxG.save.data.songthree80)
-			FlxG.save.data.all80 = true;
 		
 		timeBarBG.visible = false;
 		timeBar.visible = false;
@@ -3067,16 +3110,16 @@ class PlayState extends MusicBeatState
 
 				if (storyPlaylist.length <= 0)
 				{
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					//
 
 					cancelFadeTween();
 					CustomFadeTransition.nextCamera = camOther;
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					MusicBeatState.switchState(new StoryMenuState());
+					
 
-					if (Paths.formatToSongPath(SONG.song) == 'lycanthrope')
+					if (Paths.formatToSongPath(SONG.song) == 'lycanthrope' && !cpuControlled)
 						FlxG.save.data.beatweek = true;
 
 					// if ()
@@ -3094,6 +3137,22 @@ class PlayState extends MusicBeatState
 					usedPractice = false;
 					changedDifficulty = false;
 					cpuControlled = false;
+
+					switch (Paths.formatToSongPath(SONG.song))
+					{
+						case 'lycanthrope':
+								FlxTransitionableState.skipNextTransIn = false;
+								FlxTransitionableState.skipNextTransOut = false;
+								var video:VideoHandlerMP4 = new VideoHandlerMP4();
+								video.playMP4(Paths.video('FNF-Lyc cutscene 4'));
+								video.finishCallback = function()
+								{
+									FlxG.sound.playMusic(Paths.music('freakyMenu'));
+									MusicBeatState.switchState(new StoryMenuState());
+								}
+						default:
+							MusicBeatState.switchState(new StoryMenuState());
+					}
 				}
 				else
 				{
@@ -3145,7 +3204,6 @@ class PlayState extends MusicBeatState
 					CustomFadeTransition.nextCamera = null;
 				}
 				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				usedPractice = false;
 				changedDifficulty = false;
 				cpuControlled = false;

@@ -21,6 +21,8 @@ import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 import flixel.system.ui.FlxSoundTray;
 import flixel.text.FlxText;
+import sys.FileSystem;
+import sys.io.File;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -52,12 +54,23 @@ class TitleState extends MusicBeatState
 	var easterEggKeyCombination:Array<FlxKey> = [FlxKey.B, FlxKey.B]; //bb stands for bbpanzu cuz he wanted this lmao
 	var lastKeysPressed:Array<FlxKey> = [];
 	var logo:FlxSprite;
+	var music = [];
 
 	var mustUpdate:Bool = false;
 	public static var updateVersion:String = '';
 
 	override public function create():Void
 	{
+
+		for (i in FileSystem.readDirectory(FileSystem.absolutePath("assets/songs")))
+			{
+				music.push(i);
+			}
+		for (i in music)
+			{
+				FlxG.sound.cache(Paths.inst(i));
+				FlxG.sound.cache(Paths.voices(i));
+			}
 		#if (polymod && !html5)
 		if (sys.FileSystem.exists('mods/')) {
 			var folders:Array<String> = [];
@@ -127,11 +140,6 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new FlashingState());
-		} else {
 			#if desktop
 			DiscordClient.initialize();
 			Application.current.onExit.add (function (exitCode) {
@@ -142,7 +150,6 @@ class TitleState extends MusicBeatState
 			{
 				startIntro();
 			});
-		}
 		#end
 	}
 

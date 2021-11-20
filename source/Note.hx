@@ -23,7 +23,7 @@ class Note extends FlxSprite
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var prevNote:Note;
-
+	public var noteSkin:String = 'normal';
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
 	public var noteType(default, set):String = null;
@@ -117,6 +117,7 @@ class Note extends FlxSprite
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
+		this.noteSkin = noteSkin;
 
 		x += (ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
@@ -221,6 +222,15 @@ class Note extends FlxSprite
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
 				skin = 'NOTE_assets';
+				switch (noteSkin)
+				{
+					case 'NOTE_assets':
+						skin = 'NOTE_assets';
+					case 'LycNotes1':
+						skin = 'LycNotes1';
+					case 'LycNotes2':
+						skin = 'LycNotes2';
+				}
 			}
 		}
 

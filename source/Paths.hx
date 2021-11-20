@@ -136,16 +136,11 @@ class Paths
 		return getPath('$key.lua', TEXT, library);
 	}
 
-	static public function video(key:String)
-	{
-		#if MODS_ALLOWED
-		var file:String = modsVideo(key);
-		if(FileSystem.exists(file)) {
-			return file;
+	inline static public function video(key:String, ?library:String)
+		{
+			trace('assets/videos/$key.mp4');
+			return getPath('videos/$key.mp4', BINARY, library);
 		}
-		#end
-		return 'assets/videos/$key.$VIDEO_EXT';
-	}
 
 	static public function sound(key:String, ?library:String):Dynamic
 	{

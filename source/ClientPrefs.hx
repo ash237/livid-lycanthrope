@@ -21,7 +21,7 @@ class ClientPrefs {
 	public static var hideHud:Bool = false;
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
-	public static var imagesPersist:Bool = false;
+	public static var imagesPersist:Bool = true;
 	public static var ghostTapping:Bool = true;
 	public static var hideTime:Bool = false;
 
@@ -56,16 +56,46 @@ class ClientPrefs {
 			FlxG.save.data.beatweek = false;
 
 		if (FlxG.save.data.songone80 == null)
-			FlxG.save.data.songone80 = true;
+			FlxG.save.data.songone80 = false;
 
 		if (FlxG.save.data.songtwo80 == null)
-			FlxG.save.data.songtwo80 = true;
+			FlxG.save.data.songtwo80 = false;
 
 		if (FlxG.save.data.songthree80 == null)
 			FlxG.save.data.songthree80 = false;
 
+		if (FlxG.save.data.songonefc == null)
+			FlxG.save.data.songonefc = false;
+
+		if (FlxG.save.data.songtwofc == null)
+			FlxG.save.data.songtwofc = false;
+
+		if (FlxG.save.data.songthreefc == null)
+			FlxG.save.data.songthreefc = false;
+
+		if (FlxG.save.data.songonefc2 == null)
+			FlxG.save.data.songonefc2 = false;
+
+		if (FlxG.save.data.songtwofc2 == null)
+			FlxG.save.data.songtwofc2 = false;
+
+		if (FlxG.save.data.songthreefc2 == null)
+			FlxG.save.data.songthreefc2 = false;
+
+		if (FlxG.save.data.songfourfc2 == null)
+			FlxG.save.data.songfourfc2 = false;
+
+		if (FlxG.save.data.songfourfc == null)
+			FlxG.save.data.songfourfc = false;
+
 		if (FlxG.save.data.all80 == null)
 			FlxG.save.data.all80 = false;
+
+		if (FlxG.save.data.fcall == null)
+			FlxG.save.data.fcall = false;
+
+		if (FlxG.save.data.fcall2 == null)
+			FlxG.save.data.fcall2 = false;
 
 		FlxG.save.data.downScroll = downScroll;
 		FlxG.save.data.middleScroll = middleScroll;

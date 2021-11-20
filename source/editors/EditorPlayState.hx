@@ -822,7 +822,7 @@ class EditorPlayState extends MusicBeatState
 		for (i in 0...4)
 		{
 			// FlxG.log.add(i);
-			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X, strumLine.y, i, player);
+			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X, strumLine.y, i, player,'normal');
 			babyArrow.alpha = 0;
 			FlxTween.tween(babyArrow, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 

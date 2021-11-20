@@ -61,6 +61,10 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		trace(FlxG.save.data.songone80);
+		trace(FlxG.save.data.songtwo80);
+		trace(FlxG.save.data.songthree80);
+
 		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
 
 		var bg:FlxSprite = new FlxSprite(0).loadGraphic(Paths.image('menus/main/bg'));

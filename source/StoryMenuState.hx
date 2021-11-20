@@ -35,6 +35,9 @@ class StoryMenuState extends MusicBeatState
 	var normal:FlxSprite;
 	var expert:FlxSprite;
 
+	var funnytween:FlxTween;
+	var funnytween2:FlxTween;
+
 	private static var curDifficulty:Int = 1;
 
 	var txtWeekTitle:FlxText;
@@ -414,10 +417,22 @@ class StoryMenuState extends MusicBeatState
 				expert.alpha = 0;
 				normal.alpha = 1;
 			}
+			if(funnytween != null) {
+				funnytween.cancel();
+			}
+			if(funnytween2 != null) {
+				funnytween2.cancel();
+			}
 		expert.scale.set(0.24,0.24);
 		normal.scale.set(0.2,0.2);
-		FlxTween.tween(normal, {"scale.x": 0.16,"scale.y": 0.16}, 0.4, {ease: FlxEase.cubeOut});
-		FlxTween.tween(expert, {"scale.x": 0.2,"scale.y": 0.2}, 0.4, {ease: FlxEase.cubeOut});
+		funnytween2 = FlxTween.tween(normal, {"scale.x": 0.16,"scale.y": 0.16}, 0.4, {ease: FlxEase.cubeOut,onComplete: function(twn:FlxTween) {
+			funnytween2 = null;
+		}
+	});
+		funnytween = FlxTween.tween(expert, {"scale.x": 0.2,"scale.y": 0.2}, 0.4, {ease: FlxEase.cubeOut,onComplete: function(twn:FlxTween) {
+			funnytween = null;
+		}
+	});
 
 		sprDifficultyGroup.forEach(function(spr:FlxSprite) {
 			spr.visible = false;
