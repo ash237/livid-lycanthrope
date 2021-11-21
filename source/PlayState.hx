@@ -933,7 +933,7 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
-		if (alreadyshowed) {
+		if (alreadyshowed && isStoryMode) {
 			camGame.visible = false;
 			camHUD.visible = false;
 		}
