@@ -1,59 +1,59 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [
 				-2,
-				0
+				-1
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "idle",
-			"fps": 24,
-			"name": "FireDoggy Idle instance 1",
-			"indices": []
+			"indices": [],
+			"name": "FireDoggy Idle instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				-83,
-				-194
+				-97,
+				-164
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singRIGHT",
-			"fps": 24,
-			"name": "FireDoggy Right instance 1",
-			"indices": []
+			"indices": [],
+			"name": "FireDoggy Right instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				137,
-				68
+				77,
+				79
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singUP",
-			"fps": 24,
-			"name": "FireDoggy Up instance 1",
-			"indices": []
+			"indices": [],
+			"name": "FireDoggy Up instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				-94,
-				-276
+				-203,
+				-254
 			],
+			"loop": false,
+			"fps": 24,
 			"anim": "singDOWN",
-			"fps": 24,
-			"name": "FireDoggy Down instance 1",
-			"indices": []
+			"indices": [],
+			"name": "FireDoggy Down instance 1"
 		},
 		{
-			"loop": false,
 			"offsets": [
-				178,
-				-64
+				15,
+				-57
 			],
-			"anim": "singLEFT",
+			"loop": false,
 			"fps": 24,
-			"name": "FireDoggy Left instance 1",
-			"indices": []
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "FireDoggy Left instance 1"
 		}
 	],
 	"no_antialiasing": false,

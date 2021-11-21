@@ -62,6 +62,10 @@ class PlayState extends MusicBeatState
 	public static var STRUM_X_MIDDLESCROLL = -278;
 	public static var alreadyshowed:Bool = true;
 
+	private var redbarbg:FlxSprite;
+	private var redbar:FlxBar;
+	var notice:FlxSprite;
+
 	public static var ratingStuff:Array<Dynamic> = [
 		['You Suck!', 0.2], //From 0% to 19%
 		['Shit', 0.4], //From 20% to 39%
@@ -929,6 +933,11 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection(0);
 
+		if (alreadyshowed) {
+			camGame.visible = false;
+			camHUD.visible = false;
+		}
+
 		healthBarBG = new AttachedSprite('healthBar');
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
@@ -1015,7 +1024,7 @@ class PlayState extends MusicBeatState
 		#end
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
-		if (isStoryMode && !seenCutscene)
+		if (isStoryMode)
 		{
 			switch (Paths.formatToSongPath(SONG.song))
 			{
@@ -1031,6 +1040,11 @@ class PlayState extends MusicBeatState
 						}
 						alreadyshowed = false;
 					}
+					else {
+						camHUD.visible = true;
+						camGame.visible = true;
+						startCountdown();
+					}
 				case 'rejoice':
 					if (alreadyshowed) {
 						FlxTransitionableState.skipNextTransIn = false;
@@ -1043,6 +1057,11 @@ class PlayState extends MusicBeatState
 						}
 						alreadyshowed = false;
 					}
+					else {
+						camHUD.visible = true;
+						camGame.visible = true;
+						startCountdown();
+					}
 				case 'before-the-storm':
 					if (alreadyshowed) {
 						FlxTransitionableState.skipNextTransIn = false;
@@ -1054,6 +1073,11 @@ class PlayState extends MusicBeatState
 							LoadingState.loadAndSwitchState(new PlayState());
 						}
 						alreadyshowed = false;
+					}
+					else {
+						camHUD.visible = true;
+						camGame.visible = true;
+						startCountdown();
 					}
 				default:
 					startCountdown();
@@ -1453,6 +1477,13 @@ class PlayState extends MusicBeatState
 							}
 						});
 						FlxG.sound.play(Paths.sound('introGo' + introSoundsSuffix), 0.6);
+						if (Paths.formatToSongPath(SONG.song) == 'lycanthrope' && isStoryMode)
+							{
+								FlxTween.tween(notice, {alpha: 1}, 1, {ease:FlxEase.cubeIn});
+								new FlxTimer().start(7, function(tmr:FlxTimer) {
+									FlxTween.tween(notice, {alpha: 0}, 0.8, {ease:FlxEase.cubeOut});
+								},1);
+							}
 					case 4:
 				}
 
@@ -1541,27 +1572,27 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
 
 		if (usingAttackBar) {
-			grpAttackBar = new FlxTypedGroup<FlxSprite>();
-			add(grpAttackBar);
 			
+			redbarbg = new FlxSprite(1006, 176).loadGraphic(Paths.image('barempty'));
+			redbarbg.scrollFactor.set();//shadow: bg so it doesnt look like its appearing out of nowhere
+			add(redbarbg);
+	
+			redbar = new FlxBar(1006, 176, BOTTOM_TO_TOP, Std.int(redbarbg.width), Std.int(redbarbg.height), this,
+				'attackLevel', 0, 60);//shadow: making it at actual bar
+			redbar.scrollFactor.set();
+			redbar.createImageEmptyBar(Paths.image('barempty'), FlxColor.WHITE);//shadow: using this instead of colors
+			redbar.createImageFilledBar(Paths.image('barfull'), FlxColor.WHITE);
+			add(redbar);
 
-			for (i in 0...7) {
-				var bar:FlxSprite = new FlxSprite(1006, 176).loadGraphic(Paths.image('bar/bar' + i, 'lyc'));
-				grpAttackBar.add(bar);
-				if (i != 0)
-					bar.alpha = 0;
-			}
-			grpAttackBar.cameras = [camHUD];
+			notice = new FlxSprite().loadGraphic(Paths.image('notice'));
+			notice.scrollFactor.set();
+			notice.screenCenter();
+			notice.alpha = 0;
+			notice.cameras = [camOther];
+			add(notice);
 
-			#if debug
-				attackTxt = new FlxText(1150, 500, 400, "", 32);
-				attackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				attackTxt.scrollFactor.set();
-				//attackTxt.alpha = 0;
-				attackTxt.borderSize = 2;
-				attackTxt.cameras = [camHUD];
-				add(attackTxt);
-			#end
+			redbarbg.cameras = [camHUD];
+			redbar.cameras = [camHUD];
 
 			addAttack(0);
 		}
@@ -1689,7 +1720,8 @@ class PlayState extends MusicBeatState
 	}
 
 	function addAttack(attack:Float) {
-		attackLevel += attack;
+		if (canfill)
+			FlxTween.tween(this, {attackLevel: attackLevel + attack}, 0.1);//shadow: made it a tween to look a bit more smoother
 
 		if (attackLevel > 60) {
 			//camHUD.flash(FlxColor.RED, 1);
@@ -1697,38 +1729,20 @@ class PlayState extends MusicBeatState
 			attackFlash.cameras = [camHUD];
 			add(attackFlash);
 			FlxTween.tween(attackFlash, {alpha: 0}, 1, {ease:FlxEase.quadOut});
-			FlxTween.num(health, health - 0.66, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
+			FlxTween.num(health, health - 0.8, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
 				health = v;
 			});
-			attackLevel = 0;
-		} else if (attackLevel >= 50) {
-			updateBar(6);
-		} else if (attackLevel >= 40) {
-			updateBar(5);
-		} else if (attackLevel >= 30) {
-			updateBar(4);
-		} else if (attackLevel >= 20) {
-			updateBar(3);
-		} else if (attackLevel >= 10) {
-			updateBar(2);
-		} else if (attackLevel >= 1) {
-			updateBar(1);
-		} else if (attackLevel <= 0) {
-			updateBar(0);
-		}
-
-		#if debug
-			attackTxt.text = Std.string(attackLevel);
-		#end
-	}
-	function updateBar(bar:Int) {
-		if (grpAttackBar.members[bar].alpha == 0) {
-			for (i in 0...grpAttackBar.length) {
-				if (i != bar)
-					grpAttackBar.members[i].alpha = 0;
-				else
-					grpAttackBar.members[i].alpha = 1;
-			}
+			canfill = false;//shadow: bool so it doesnt look buggy when filling and removing at the same time
+			FlxTween.tween(this, {attackLevel: 0}, 0.5,{
+				onComplete: function(twn:FlxTween)
+				{
+					canfill = true;
+				}
+			});
+			canheal = false;
+			canhealtimer = new FlxTimer().start(3, function(tmr:FlxTimer) {
+				canheal = true;
+			});
 		}
 	}
 	function eventPushed(event:Array<Dynamic>) {
@@ -1830,6 +1844,8 @@ class PlayState extends MusicBeatState
 
 			if (!startTimer.finished)
 				startTimer.active = false;
+			if (canhealtimer != null)
+				canhealtimer.active = false;
 			if (finishTimer != null && !finishTimer.finished)
 				finishTimer.active = false;
 
@@ -1869,6 +1885,8 @@ class PlayState extends MusicBeatState
 
 			if (!startTimer.finished)
 				startTimer.active = true;
+			if (canhealtimer != null)
+				canhealtimer.active = true;
 			if (finishTimer != null && !finishTimer.finished)
 				finishTimer.active = true;
 
@@ -1957,6 +1975,10 @@ class PlayState extends MusicBeatState
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var limoSpeed:Float = 0;
+
+	var canfill:Bool = true;
+	var canheal:Bool = true;
+	var canhealtimer:FlxTimer;
 
 	override public function update(elapsed:Float)
 	{
@@ -2174,6 +2196,8 @@ class PlayState extends MusicBeatState
 
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
+		else if (healthBar.percent < 20)
+			iconP2.animation.curAnim.curFrame = 2;
 		else
 			iconP2.animation.curAnim.curFrame = 0;
 
@@ -3289,7 +3313,8 @@ class PlayState extends MusicBeatState
 				addAttack(2);
 		}
 
-		health += note.hitHealth * healthMultiplier;
+		if (canheal)
+			health += note.hitHealth * healthMultiplier;
 
 		if(daRating == 'sick' && !note.noteSplashDisabled)
 		{
