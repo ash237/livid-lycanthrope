@@ -1725,13 +1725,28 @@ class PlayState extends MusicBeatState
 
 		if (attackLevel > 60) {
 			//camHUD.flash(FlxColor.RED, 1);
+			FlxG.sound.play(Paths.sound('attack_sfx'), 0.8);	
+			var ouch:FlxSprite = new FlxSprite().loadGraphic(Paths.image('ouch'));
+			ouch.cameras = [camHUD];
+			ouch.screenCenter();
+			add(ouch);
 			var attackFlash:FlxSprite = new FlxSprite().loadGraphic(Paths.image('attackpulse', 'lyc'));
 			attackFlash.cameras = [camHUD];
 			add(attackFlash);
 			FlxTween.tween(attackFlash, {alpha: 0}, 1, {ease:FlxEase.quadOut});
-			FlxTween.num(health, health - 0.8, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
-				health = v;
-			});
+			FlxTween.tween(ouch, {alpha: 0}, 1, {ease:FlxEase.quadOut});
+			if (storyDifficulty == 1)
+				{
+					FlxTween.num(health, health - 0.66, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
+						health = v;
+					});
+				}
+				else
+					{
+						FlxTween.num(health, health - 1, 0.4, {ease: FlxEase.cubeOut}, function (v:Float) {
+							health = v;
+						});
+					}
 			canfill = false;//shadow: bool so it doesnt look buggy when filling and removing at the same time
 			FlxTween.tween(this, {attackLevel: 0}, 0.5,{
 				onComplete: function(twn:FlxTween)
@@ -1740,9 +1755,18 @@ class PlayState extends MusicBeatState
 				}
 			});
 			canheal = false;
-			canhealtimer = new FlxTimer().start(3, function(tmr:FlxTimer) {
-				canheal = true;
-			});
+			if (storyDifficulty == 1)
+				{
+					canhealtimer = new FlxTimer().start(3, function(tmr:FlxTimer) {
+						canheal = true;
+					});
+				}
+				else
+					{
+						canhealtimer = new FlxTimer().start(6, function(tmr:FlxTimer) {
+							canheal = true;
+						});
+					}
 		}
 	}
 	function eventPushed(event:Array<Dynamic>) {
